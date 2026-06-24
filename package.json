@@ -1,0 +1,27 @@
+{
+  "name": "@skalfa/skalfa-orm",
+  "version": "1.0.1",
+  "description": "ORM utility package for Skalfa API framework using Knex.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --ignoreDeprecations 6.0"
+  },
+  "keywords": [
+    "aluna",
+    "orm",
+    "knex",
+    "skalfa"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "knex": "^3.1.0",
+    "pg": "^8.16.3",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "typescript": "^6.0.3"
+  }
+}
