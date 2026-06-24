@@ -1,7 +1,7 @@
 {
   "name": "@skalfa/skalfa-orm",
   "version": "1.0.1",
-  "description": "ORM utility package for Skalfa API framework using Knex.",
+  "description": "Knex-based relational database ORM, model mapper, and schema migration extension for PostgreSQL in Skalfa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "knex": "^3.1.0",
     "pg": "^8.16.3",
-    "elysia": "latest"
+    "elysia": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
