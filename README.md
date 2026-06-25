@@ -15,7 +15,11 @@ This package is part of the **Skalfa Framework**, a premium development ecosyste
 ### Usage Scope & Standalone Status
 > 💡 **Standalone Capability:** This package is **fully standalone**! You can install and use it in **any external Node.js, Bun, or TypeScript project**, completely independent of the Skalfa ecosystem.
 
-For more details, visit the official documentation at **[skalfa.sejedigital.com](https://skalfa.sejedigital.com)**.
+---
+
+## Dokumentasi
+
+Lihat dokumentasi penggunaan [Dokumentasi](https://skalfa.sejedigital.com)
 
 ---
 
