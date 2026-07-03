@@ -1,6 +1,6 @@
 {
   "name": "@skalfa/skalfa-orm",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Knex-based relational database ORM, model mapper, and schema migration extension for PostgreSQL in Skalfa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,8 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "knex": "^3.1.0",
-    "pg": "^8.16.3",
-    "elysia": "^1.2.0"
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/node": "^26.0.0",
