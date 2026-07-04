@@ -151,14 +151,22 @@ declare module "knex" {
 // ==============================
 // ## migration schema extension
 // ==============================
-knex.TableBuilder.extend("softDelete", function(this: Knex.TableBuilder) {
-  return this.timestamp("deleted_at").nullable()
-})
+try {
+  knex.TableBuilder.extend("softDelete", function(this: Knex.TableBuilder) {
+    return this.timestamp("deleted_at").nullable()
+  })
+} catch (e: any) {
+  if (!e.message?.includes("Can't extend")) throw e
+}
 
-knex.TableBuilder.extend("foreignIdFor", function(this: Knex.TableBuilder, tableName: string, columnName?: string) {
-  const col = columnName || `${conversion.strSingular(tableName)}_id`
-  return this.bigInteger(col).unsigned().references("id").inTable(tableName)
-})
+try {
+  knex.TableBuilder.extend("foreignIdFor", function(this: Knex.TableBuilder, tableName: string, columnName?: string) {
+    const col = columnName || `${conversion.strSingular(tableName)}_id`
+    return this.bigInteger(col).unsigned().references("id").inTable(tableName)
+  })
+} catch (e: any) {
+  if (!e.message?.includes("Can't extend")) throw e
+}
 
 knex.ColumnBuilder.extend("searchable", function(this: any) {
   const client      =  this.client?.config?.client
