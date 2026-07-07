@@ -1,6 +1,6 @@
 {
   "name": "@skalfa/skalfa-orm",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Knex-based relational database ORM, model mapper, and schema migration extension for PostgreSQL in Skalfa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
