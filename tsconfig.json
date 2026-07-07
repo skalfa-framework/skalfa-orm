@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",
     "target": "ES2021",
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "declaration": true,
     "sourceMap": true,
     "outDir": "./dist",
@@ -13,7 +12,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "baseUrl": ".",
     "types": ["node"]
   },
   "include": ["src/**/*"]

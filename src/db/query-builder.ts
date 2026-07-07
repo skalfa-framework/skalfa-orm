@@ -162,7 +162,7 @@ try {
 try {
   knex.TableBuilder.extend("foreignIdFor", function(this: Knex.TableBuilder, tableName: string, columnName?: string) {
     const col = columnName || `${conversion.strSingular(tableName)}_id`
-
+    
     return this.bigInteger(col).unsigned().index()
   })
 } catch (e: any) {

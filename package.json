@@ -1,22 +1,16 @@
 {
   "name": "@skalfa/skalfa-orm",
-  "version": "1.0.8",
-  "description": "Knex-based relational database ORM, model mapper, and schema migration extension for PostgreSQL in Skalfa.",
+  "version": "1.0.9",
+  "license": "MIT",
+  "description": "Knex-based relational database ORM, model mapper, and schema migration for Skalfa Framework.",
+  "keywords": ["skalfa", "skalfa-api", "skalfa-api-orm", "orm", "knex-orm", "bun-framework", "elysia-framework"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --ignoreDeprecations 6.0"
+    "build": "tsc"
   },
-  "keywords": [
-    "aluna",
-    "orm",
-    "knex",
-    "skalfa"
-  ],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "knex": "^3.1.0",
+    "knex": "^3.3.0",
     "pg": "^8.16.3"
   },
   "devDependencies": {
