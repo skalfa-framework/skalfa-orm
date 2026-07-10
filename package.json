@@ -1,13 +1,21 @@
 {
   "name": "@skalfa/skalfa-orm",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "MIT",
   "description": "Knex-based relational database ORM, model mapper, and schema migration for Skalfa Framework.",
-  "keywords": ["skalfa", "skalfa-api", "skalfa-api-orm", "orm", "knex-orm", "bun-framework", "elysia-framework"],
+  "keywords": [
+    "skalfa",
+    "skalfa-api",
+    "skalfa-api-orm",
+    "orm",
+    "knex-orm",
+    "bun-framework",
+    "elysia-framework"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "knex": "^3.3.0",
