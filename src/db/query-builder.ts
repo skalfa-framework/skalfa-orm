@@ -59,6 +59,8 @@ declare module "knex" {
       whereRaw(...args: any[]): this
       selectRaw(...args: any[]): this
 
+      updates(payload: Record<string, any>[], pk?: string): Knex.QueryBuilder<TRecord, TResult>
+
       // ===== JOIN WITH =====
       joinWith(
         type: "BELONGSTO" | "HASONE" | "HASMANY" | "BELONGSTOMANY",
@@ -376,3 +378,27 @@ knex.QueryBuilder.extend("orWhereJoinDoesntHave", function (this: Knex.QueryBuil
     )
   })
 })
+
+knex.QueryBuilder.extend("updates", function (this: Knex.QueryBuilder, payload: Record<string, any>[], pk: string = 'id') {
+  if (!payload || payload.length === 0) return this
+
+  const ids = payload.map(item => item[pk])
+  const keys = Object.keys(payload[0]).filter(k => k !== pk)
+  const updatePayload: Record<string, any> = {}
+
+  for (const key of keys) {
+    let caseSql = `CASE ${pk} `
+    const bindings: any[] = []
+
+    for (const item of payload) {
+      caseSql += `WHEN ? THEN ? `
+      bindings.push(item[pk], item[key])
+    }
+    caseSql += `END`
+
+    updatePayload[key] = this.client.raw(caseSql, bindings)
+  }
+
+  return this.whereIn(pk, ids).update(updatePayload)
+})
+
