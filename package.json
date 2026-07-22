@@ -1,6 +1,6 @@
 {
   "name": "@skalfa/skalfa-orm",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "license": "MIT",
   "description": "Knex-based relational database ORM, model mapper, and schema migration for Skalfa Framework.",
   "keywords": [
