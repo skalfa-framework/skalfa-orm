@@ -67,6 +67,8 @@ export async function pump(instance: any, payload: any, options: { trx?: any } =
       }
     }
 
+    instance.fill(flat)
+
     for (const [name, value] of Object.entries(belongsToRelations)) {
       const relDef   =  relations[name]
       const desc     =  relDef()
@@ -95,10 +97,10 @@ export async function pump(instance: any, payload: any, options: { trx?: any } =
 
         instance[desc.foreignKey]  =  child[desc.localKey ?? pkName]
         instance[name]             =  child
+      } else if (typeof item === 'number' || typeof item === 'string') {
+        instance[desc.foreignKey] = item
       }
     }
-
-    instance.fill(flat)
 
     await instance.useTransaction(trx).save()
 
