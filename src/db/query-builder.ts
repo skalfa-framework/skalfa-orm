@@ -153,25 +153,25 @@ declare module "knex" {
 // ==============================
 // ## migration schema extension
 // ==============================
-try {
-  knex.TableBuilder.extend("softDelete", function(this: Knex.TableBuilder) {
-    return this.timestamp("deleted_at").nullable()
-  })
-} catch (e: any) {
-  if (!e.message?.includes("Can't extend")) throw e
+function safeExtend(target: any, name: string, fn: Function) {
+  try {
+    target.extend(name, fn)
+  } catch (e: any) {
+    if (!e.message?.includes("Can't extend")) throw e
+  }
 }
 
-try {
-  knex.TableBuilder.extend("foreignIdFor", function(this: Knex.TableBuilder, tableName: string, columnName?: string) {
-    const col = columnName || `${conversion.strSingular(tableName)}_id`
-    
-    return this.bigInteger(col).unsigned().index()
-  })
-} catch (e: any) {
-  if (!e.message?.includes("Can't extend")) throw e
-}
+safeExtend(knex.TableBuilder, "softDelete", function(this: Knex.TableBuilder) {
+  return this.timestamp("deleted_at").nullable()
+})
 
-knex.ColumnBuilder.extend("searchable", function(this: any) {
+safeExtend(knex.TableBuilder, "foreignIdFor", function(this: Knex.TableBuilder, tableName: string, columnName?: string) {
+  const col = columnName || `${conversion.strSingular(tableName)}_id`
+  
+  return this.bigInteger(col).unsigned().index()
+})
+
+safeExtend(knex.ColumnBuilder, "searchable", function(this: any) {
   const client      =  this.client?.config?.client
   const isPostgres  =  typeof client  ===  'string' && (client.includes('postgres') || client.includes('pg'))
 
@@ -232,7 +232,7 @@ function buildWhereHas(
 // ==============================
 // ## join with
 // ==============================
-knex.QueryBuilder.extend("joinWith", function (
+safeExtend(knex.QueryBuilder, "joinWith", function (
   this: Knex.QueryBuilder,
   type: "BELONGSTO" | "HASONE" | "HASMANY" | "BELONGSTOMANY",
   table: string,
@@ -324,7 +324,7 @@ knex.QueryBuilder.extend("joinWith", function (
 // ==============================
 // ## where join
 // ==============================
-knex.QueryBuilder.extend("whereJoinHas", function (this: Knex.QueryBuilder, type, table, localKeyOrRelation, foreignKey?, callback? ) {
+safeExtend(knex.QueryBuilder, "whereJoinHas", function (this: Knex.QueryBuilder, type: any, table: any, localKeyOrRelation: any, foreignKey?: any, callback?: any) {
   return this.whereExists(function (this: Knex.QueryBuilder) {
     buildWhereHas(
       this,
@@ -338,7 +338,7 @@ knex.QueryBuilder.extend("whereJoinHas", function (this: Knex.QueryBuilder, type
 })
 
 
-knex.QueryBuilder.extend("orWhereJoinHas", function (this: Knex.QueryBuilder, type, table, localKeyOrRelation, foreignKey?, callback? ) {
+safeExtend(knex.QueryBuilder, "orWhereJoinHas", function (this: Knex.QueryBuilder, type: any, table: any, localKeyOrRelation: any, foreignKey?: any, callback?: any) {
   return this.orWhereExists(function (this: Knex.QueryBuilder) {
     buildWhereHas(
       this,
@@ -352,7 +352,7 @@ knex.QueryBuilder.extend("orWhereJoinHas", function (this: Knex.QueryBuilder, ty
 })
 
 
-knex.QueryBuilder.extend("whereJoinDoesntHave", function (this: Knex.QueryBuilder, type, table, localKeyOrRelation, foreignKey?, callback? ) {
+safeExtend(knex.QueryBuilder, "whereJoinDoesntHave", function (this: Knex.QueryBuilder, type: any, table: any, localKeyOrRelation: any, foreignKey?: any, callback?: any) {
   return this.whereNotExists(function (this: Knex.QueryBuilder) {
     buildWhereHas(
       this,
@@ -366,7 +366,7 @@ knex.QueryBuilder.extend("whereJoinDoesntHave", function (this: Knex.QueryBuilde
 })
 
 
-knex.QueryBuilder.extend("orWhereJoinDoesntHave", function (this: Knex.QueryBuilder, type, table, localKeyOrRelation, foreignKey?, callback? ) {
+safeExtend(knex.QueryBuilder, "orWhereJoinDoesntHave", function (this: Knex.QueryBuilder, type: any, table: any, localKeyOrRelation: any, foreignKey?: any, callback?: any) {
   return this.orWhereNotExists(function (this: Knex.QueryBuilder) {
     buildWhereHas(
       this,
@@ -379,7 +379,7 @@ knex.QueryBuilder.extend("orWhereJoinDoesntHave", function (this: Knex.QueryBuil
   })
 })
 
-knex.QueryBuilder.extend("updates", function (this: Knex.QueryBuilder, payload: Record<string, any>[], pk: string = 'id') {
+safeExtend(knex.QueryBuilder, "updates", function (this: Knex.QueryBuilder, payload: Record<string, any>[], pk: string = 'id') {
   if (!payload || payload.length === 0) return this
 
   const ids = payload.map(item => item[pk])
