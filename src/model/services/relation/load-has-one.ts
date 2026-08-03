@@ -1,3 +1,7 @@
+import { applyGlobalScopes } from '../scope/apply-global-scopes'
+import { applyWithAggregates } from '../aggregate/apply-with-aggregates'
+import { applyOrderByAggregates } from '../aggregate/apply-order-by-aggregates'
+
 export async function loadHasOne(
   rows       :  any[],
   rel        :  any,
@@ -17,6 +21,10 @@ export async function loadHasOne(
   rel.callback?.(q)
 
   callback?.(q)
+
+  applyGlobalScopes(q)
+  applyWithAggregates(q)
+  applyOrderByAggregates(q)
 
   const related  =  rel.model().hydrate(await q)
   const map      =  new Map(related.map((r: any) => [String(r[rel.foreignKey]), r]))

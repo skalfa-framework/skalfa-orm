@@ -1,3 +1,7 @@
+import { applyGlobalScopes } from '../scope/apply-global-scopes'
+import { applyWithAggregates } from '../aggregate/apply-with-aggregates'
+import { applyOrderByAggregates } from '../aggregate/apply-order-by-aggregates'
+
 export async function loadHasMany(rows: any[], rel: any, name: string, callback?: (q: any) => void) {
   const ids = rows.map(r => r[rel.localKey])
 
@@ -12,6 +16,10 @@ export async function loadHasMany(rows: any[], rel: any, name: string, callback?
   rel.callback?.(q)
 
   callback?.(q)
+
+  applyGlobalScopes(q)
+  applyWithAggregates(q)
+  applyOrderByAggregates(q)
 
   const related = rel.model().hydrate(await q)
   const grouped: Record<string, any[]> = {}

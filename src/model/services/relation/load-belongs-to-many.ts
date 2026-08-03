@@ -1,3 +1,6 @@
+import { applyGlobalScopes } from '../scope/apply-global-scopes'
+import { applyWithAggregates } from '../aggregate/apply-with-aggregates'
+import { applyOrderByAggregates } from '../aggregate/apply-order-by-aggregates'
 import { conversion } from '../../../conversion'
 
 
@@ -33,6 +36,10 @@ export async function loadBelongsToMany(
   callback?.(q)
 
   q.select(`${relatedTable}.*`, `${pivotTable}.${pivotLocal} as __pivot_${pivotLocal}`)
+
+  applyGlobalScopes(q)
+  applyWithAggregates(q)
+  applyOrderByAggregates(q)
 
   const rawRows  =  await q
   const related  =  Related.hydrate(rawRows)

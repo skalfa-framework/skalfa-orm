@@ -40,8 +40,11 @@ export function applyGlobalScopes(query: any) {
 
     if (mode === 'with') return
 
-    if (mode === 'default') query.whereNull(col)
+    const table = Model.getTable()
+    const qualifiedCol = col.includes('.') ? col : `${table}.${col}`
 
-    if (mode === 'only') query.whereNotNull(col)
+    if (mode === 'default') query.whereNull(qualifiedCol)
+
+    if (mode === 'only') query.whereNotNull(qualifiedCol)
   }
 }

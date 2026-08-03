@@ -1,4 +1,5 @@
 import type { Knex } from 'knex'
+import { applyGlobalScopes } from '../scope/apply-global-scopes'
 
 
 
@@ -24,6 +25,12 @@ export function whereHasSubquery(
 
   parentQuery[method](function (this: Knex.QueryBuilder) {
     this.select(1).from(relatedTable)
+
+    if (Related.isSoftDelete?.()) {
+      const col = Related.getDeletedAtColumn()
+      const qualifiedCol = col.includes('.') ? col : `${relatedTable}.${col}`
+      this.whereNull(qualifiedCol)
+    }
 
     if (desc.type === 'hasMany' || desc.type === 'hasOne') {
       this.whereRaw(`${relatedTable}.${desc.foreignKey} = ${parentTable}.${desc.localKey}`)
@@ -53,6 +60,8 @@ export function whereHasSubquery(
       desc.callback?.(qb)
 
       callback(qb)
+
+      applyGlobalScopes(qb)
 
       this.whereExists(qb)
     }

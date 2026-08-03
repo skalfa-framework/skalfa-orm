@@ -23,6 +23,12 @@ export function applyWithAggregates(query: any) {
     const fn = item.fn as AggregateType
     const sub = (db(Related.getTable()) as any)[fn](item.column)
 
+    if (Related.isSoftDelete?.()) {
+      const col = Related.getDeletedAtColumn()
+      const qualifiedCol = col.includes('.') ? col : `${relatedTable}.${col}`
+      sub.whereNull(qualifiedCol)
+    }
+
     if (desc.type === 'hasMany' || desc.type === 'hasOne') {
       sub.whereRaw(`${relatedTable}.${desc.foreignKey} = ${parentTable}.${desc.localKey}`)
     }

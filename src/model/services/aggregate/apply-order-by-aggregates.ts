@@ -26,7 +26,11 @@ export function applyOrderByAggregates(query: any) {
 
     if (desc.type === 'belongsTo') sub.whereRaw(`${relatedTable}.${desc.localKey} = ${parentTable}.${desc.foreignKey}`)
 
-    if (Related.isSoftDelete?.()) sub.whereNull(Related.getDeletedAtColumn())
+    if (Related.isSoftDelete?.()) {
+      const col = Related.getDeletedAtColumn()
+      const qualifiedCol = col.includes('.') ? col : `${relatedTable}.${col}`
+      sub.whereNull(qualifiedCol)
+    }
 
     desc.callback?.(sub)
     item.callback?.(sub)
