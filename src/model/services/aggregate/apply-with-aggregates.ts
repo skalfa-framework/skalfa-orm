@@ -11,6 +11,11 @@ export function applyWithAggregates(query: any) {
 
   const parentTable = Model.getTable()
 
+  const hasSelect = query._statements?.some((s: any) => s.group === 'select')
+  if (!hasSelect) {
+    query.select(`${parentTable}.*`)
+  }
+
   for (const item of query._withAggregates) {
     const relDef = Model.relations?.[item.relation]
 

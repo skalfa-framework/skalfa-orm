@@ -25,6 +25,11 @@ export function applyGlobalScopes(query: any) {
           if (sub) {
             const subQueryStr = typeof sub === 'string' ? sub : (sub.toQuery ? sub.toQuery() : String(sub))
 
+            const hasSelect = query._statements?.some((s: any) => s.group === 'select')
+            if (!hasSelect) {
+              query.select(`${parentTable}.*`)
+            }
+
             query.select(query.client.raw(`(${subQueryStr}) as ${key}`))
           }
         } else {
