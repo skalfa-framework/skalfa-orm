@@ -33,7 +33,15 @@ export function applyGlobalScopes(query: any) {
             query.select(query.client.raw(`(${subQueryStr}) as ${key}`))
           }
         } else {
-          query.withAggregate(`${config.relation} as ${key}`, config.fn, config.column ?? '*', config.callback)
+          const expandCallback = query._withTree[key]?.__callback
+          const mergedCallback = expandCallback || config.callback
+            ? (q: any) => {
+                config.callback?.(q)
+                expandCallback?.(q)
+              }
+            : undefined
+
+          query.withAggregate(`${config.relation} as ${key}`, config.fn, config.column ?? '*', mergedCallback)
         }
       }
     }

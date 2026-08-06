@@ -7,11 +7,12 @@ export function castFromDB(instance: any, row: Record<string, any>): any {
   const fields = ctor.fields
 
   for (const [key, value] of Object.entries(row)) {
-    if (!fields[key]) continue
-
-    const meta = fields[key]
-
-    instance[key] = meta.cast ? (Casts as any)[meta.cast].fromDB(value) : value
+    if (fields[key]) {
+      const meta = fields[key]
+      instance[key] = meta.cast ? (Casts as any)[meta.cast].fromDB(value) : value
+    } else {
+      instance[key] = value
+    }
   }
 
   instance._original = {}

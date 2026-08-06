@@ -22,5 +22,10 @@ export function toJSON(instance: any): Record<string, any> {
     if (instance[key] !== undefined) data[key] = instance[key]
   }
 
+  for (const key of Object.keys(instance)) {
+    if (key.startsWith('_') || data[key] !== undefined || typeof instance[key] === 'function') continue
+    data[key] = instance[key]
+  }
+
   return data
 }
