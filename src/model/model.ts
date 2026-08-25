@@ -223,10 +223,10 @@ export abstract class Model {
   // ==========================
   // ## Query builder
   // ==========================
-  static query<T extends Record<string, any> = Record<string, any>>(trx?: Knex | Knex.Transaction): ModelQueryBuilder<T> {
+  static query<T extends typeof Model>(this: T, trx?: Knex | Knex.Transaction): ModelQueryBuilder<InstanceType<T>> {
     const qb = (trx ?? db)(this.getTable())
 
-    return extendModelQuery(qb, this) as ModelQueryBuilder<T>
+    return extendModelQuery(qb, this) as unknown as ModelQueryBuilder<InstanceType<T>>
   }
 
 
@@ -309,7 +309,7 @@ export abstract class Model {
   // ==========================
   // ## Save (insert / update)
   // ==========================
-  async save() {
+  async save(): Promise<this> {
     return save(this)
   }
 
@@ -344,7 +344,7 @@ export abstract class Model {
   // ==========================
   // ## Delete (with or without soft delete)
   // ==========================
-  async delete(): Promise<Record<string, any> | null> {
+  async delete(): Promise<this> {
     return deleteModel(this)
   }
 
@@ -353,7 +353,7 @@ export abstract class Model {
   // ==========================
   // ## Delete without soft delete
   // ==========================
-  async forceDelete() {
+  async forceDelete(): Promise<this> {
     return forceDelete(this)
   }
 
