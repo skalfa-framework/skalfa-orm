@@ -1,3 +1,4 @@
+import type { Knex } from 'knex'
 import type { ModelCastType } from '../types'
 import { FIELD_META, EXPRESSION_META } from '../model'
 
@@ -6,7 +7,7 @@ import { FIELD_META, EXPRESSION_META } from '../model'
 export type ExpressionRelationConfig = {
   relation  :  string
   fn        :  'count' | 'sum' | 'avg' | 'min' | 'max'
-  column   ?:  string
+  column   ?:  string | Knex.Raw
   cast     ?:  ModelCastType
   callback ?:  (q: any) => void
 }

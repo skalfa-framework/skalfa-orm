@@ -308,8 +308,8 @@ export abstract class Model {
   // ==========================
   // ## Save (insert / update)
   // ==========================
-  async save(): Promise<this> {
-    return save(this)
+  async save(options: { trx?: Knex.Transaction } = {}): Promise<this> {
+    return save(this, options)
   }
 
 
@@ -317,6 +317,8 @@ export abstract class Model {
   // ==========================
   // ## Save with relation
   // ==========================
+  async pump<T extends this>(this: T, payload: ModelPayload<T>, options?: { trx?: Knex.Transaction }): Promise<T>
+  async pump<T extends this>(this: T, payload: ModelPayload<T>[], options?: { trx?: Knex.Transaction }): Promise<T[]>
   async pump<T extends this>(this: T, payload: ModelPayload<T> | ModelPayload<T>[], options: { trx?: Knex.Transaction } = {}): Promise<T | T[]> {
     return pump(this, payload, options)
   }

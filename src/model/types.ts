@@ -98,7 +98,7 @@ declare module 'knex' {
         relation: string
         alias: string
         fn: 'count' | 'sum' | 'avg' | 'min' | 'max'
-        column: string
+        column: string | Knex.Raw
         callback?: (q: any) => void
       }>
 
@@ -106,7 +106,7 @@ declare module 'knex' {
         relation: string
         alias?: string
         fn: 'count' | 'sum' | 'avg' | 'min' | 'max'
-        column: string
+        column: string | Knex.Raw
         direction: 'asc' | 'desc'
         callback?: (q: any) => void
       }>
@@ -132,8 +132,8 @@ declare module 'knex' {
       orWhereHas(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
       whereDoesntHave(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
       orWhereDoesntHave(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
-      withAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
-      orderByAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string, direction?: 'asc' | 'desc', callback?: (q: Knex.QueryBuilder<any>) => void): this
+      withAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string | Knex.Raw, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      orderByAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string | Knex.Raw, direction?: 'asc' | 'desc', callback?: (q: Knex.QueryBuilder<any>) => void): this
     }
   }
 }

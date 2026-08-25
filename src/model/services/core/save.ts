@@ -3,7 +3,9 @@ import { Casts } from '../../model'
 
 
 
-export async function save(instance: any): Promise<any> {
+export async function save(instance: any, options: { trx?: any } = {}): Promise<any> {
+  if (options?.trx) instance._trx = options.trx
+
   const model    =  instance.constructor
   const table    =  model.getTable()
   const pk       =  model.primaryKey
