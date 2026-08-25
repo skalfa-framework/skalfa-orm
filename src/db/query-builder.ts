@@ -1,3 +1,4 @@
+import 'knex'
 import knex, { Knex } from 'knex'
 import { conversion } from '../conversion'
 

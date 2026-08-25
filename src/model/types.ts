@@ -1,3 +1,4 @@
+import 'knex'
 import type { Knex } from 'knex'
 import type { Model } from './model'
 
@@ -127,7 +128,6 @@ declare module 'knex' {
       filter(filters?: Record<string, string>): this
       selects(options?: { includes?: string[]; selectable?: string[] }): this
       sorts(sorts?: string[]): this
-      with(relation: string, callback?: any): this
       whereHas(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
       orWhereHas(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
       whereDoesntHave(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
