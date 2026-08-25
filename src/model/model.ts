@@ -56,7 +56,6 @@ export abstract class Model {
   id!: number;
   created_at!: Date;
   updated_at!: Date;
-  deleted_at!: Date;
 
   static table             :  string                           =  ""
   static primaryKey        :  string                           =  'id'
