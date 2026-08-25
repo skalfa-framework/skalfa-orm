@@ -53,9 +53,9 @@ export const Casts = {
 
 
 export abstract class Model {
-  id!: number;
-  created_at!: Date;
-  updated_at!: Date;
+  declare id: number;
+  declare created_at: Date;
+  declare updated_at: Date;
 
   static table             :  string                           =  ""
   static primaryKey        :  string                           =  'id'
