@@ -87,7 +87,7 @@ export type ScopeType = {
 // ==========================
 declare module 'knex' {
   namespace Knex {
-    interface QueryBuilder<TRecord = any, TResult = any> {
+    interface QueryBuilder<TRecord extends {} = any, TResult = any> {
       $model?: any
       _withTree?: Record<string, any>
       _formatter?: ((item: any) => any) | null

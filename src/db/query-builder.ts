@@ -17,48 +17,7 @@ declare module "knex" {
       searchable(): Knex.ColumnBuilder
     }
 
-    interface QueryBuilder<TRecord = any, TResult = any> {
-      where(...args: any[]): this
-      orWhere(...args: any[]): this
-      whereNot(...args: any[]): this
-
-      whereNull(...args: any[]): this
-      whereNotNull(...args: any[]): this
-
-      whereIn(...args: any[]): this
-      whereNotIn(...args: any[]): this
-
-      whereBetween(...args: any[]): this
-      whereNotBetween(...args: any[]): this
-
-      whereExists(...args: any[]): this
-      whereNotExists(...args: any[]): this
-
-      // ===== JOIN =====
-      join(...args: any[]): this
-      leftJoin(...args: any[]): this
-      rightJoin(...args: any[]): this
-      innerJoin(...args: any[]): this
-
-      // ===== SELECT =====
-      select(...args: any[]): this
-      distinct(...args: any[]): this
-
-      // ===== ORDER / LIMIT =====
-      orderBy(...args: any[]): this
-      orderByRaw(...args: any[]): this
-
-      limit(...args: any[]): this
-      offset(...args: any[]): this
-
-      // ===== GROUP =====
-      groupBy(...args: any[]): this
-      having(...args: any[]): this
-
-      // ===== RAW =====
-      whereRaw(...args: any[]): this
-      selectRaw(...args: any[]): this
-
+    interface QueryBuilder<TRecord extends {} = any, TResult = any> {
       updates(payload: Record<string, any>[], pk?: string): Knex.QueryBuilder<TRecord, TResult>
 
       // ===== JOIN WITH =====
