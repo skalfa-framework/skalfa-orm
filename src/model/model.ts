@@ -52,10 +52,13 @@ export const Casts = {
 
 
 
+export interface Model {
+  id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export abstract class Model {
-  declare id: number;
-  declare created_at: Date;
-  declare updated_at: Date;
 
   static table             :  string                           =  ""
   static primaryKey        :  string                           =  'id'
