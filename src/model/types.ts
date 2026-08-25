@@ -91,7 +91,6 @@ declare module 'knex' {
       $model?: any
       _withTree?: Record<string, any>
       _formatter?: ((item: any) => any) | null
-
       _softDeleteScope?: 'default' | 'with' | 'only'
 
       _withAggregates?: Array<{
@@ -110,86 +109,34 @@ declare module 'knex' {
         direction: 'asc' | 'desc'
         callback?: (q: any) => void
       }>
+
+      findOrNotFound(id: string | number): Promise<TRecord>
+      firstOrNotFound(): Promise<TRecord>
+      getFirst(): Promise<TRecord>
+      get(): Promise<TRecord[]>
+      paginate(page?: number, limit?: number): Promise<{ data: TRecord[]; total: number }>
+      option(selectableOption?: string[]): Promise<Array<{ value: any; label: any }>>
+      paginateOrOption(page?: number, limit?: number, option?: string | boolean, selectableOption?: string[]): Promise<{ data: any[]; total: number }>
+      resolve(input?: any): Promise<{ data: TRecord[]; total: number }>
+      format(formatter: string | ((item: TRecord) => any)): this
+      withoutScope(name: string | string[]): this
+      withTrashed(): this
+      onlyTrashed(): this
+      expand(relations?: Array<string | Record<string, (q: any) => void>>): this
+      search(keyword?: string, options?: { includes?: string[]; searchable?: string[] }): this
+      filter(filters?: Record<string, string>): this
+      selects(options?: { includes?: string[]; selectable?: string[] }): this
+      sorts(sorts?: string[]): this
+      with(relation: string, callback?: any): this
+      whereHas(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      orWhereHas(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      whereDoesntHave(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      orWhereDoesntHave(relation: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      withAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string, callback?: (q: Knex.QueryBuilder<any>) => void): this
+      orderByAggregate(expr: string, fn: 'count' | 'sum' | 'avg' | 'min' | 'max', column?: string, direction?: 'asc' | 'desc', callback?: (q: Knex.QueryBuilder<any>) => void): this
     }
   }
 }
 
 export interface ModelQueryBuilder<T extends Record<string, any> = Record<string, any> > extends Knex.QueryBuilder<T, T[]> {
-  _withTree?: Record<string, any>
-  _formatter?: ((item: T) => any) | null
-  _softDeleteScope?: 'default' | 'with' | 'only'
-
-  findOrNotFound(id: string | number): Promise<T>
-  firstOrNotFound(): Promise<T>
-
-  search(
-    keyword?: string,
-    options?: {
-      includes?: string[]
-      searchable?: string[]
-    }
-  ): this
-  filter(filters?: Record<string, string>): this
-  selects(options?: {
-    includes?: string[]
-    selectable?: string[]
-  }): this
-  sorts(sorts?: string[]): this
-
-  with(relation: string, callback?: any): this
-  expand(relations?: Array<string | Record<string, (q: any) => void>>): this
-
-  whereHas(
-    relation: string,
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-  orWhereHas(
-    relation: string,
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-  whereDoesntHave(
-    relation: string,
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-  orWhereDoesntHave(
-    relation: string,
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-
-  withAggregate(
-    expr: string,
-    fn: 'count' | 'sum' | 'avg' | 'min' | 'max',
-    column?: string,
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-  orderByAggregate(
-    expr: string,
-    fn: 'count' | 'sum' | 'avg' | 'min' | 'max',
-    column?: string,
-    direction?: 'asc' | 'desc',
-    callback?: (q: ModelQueryBuilder<any>) => void
-  ): this
-
-
-  get(): Promise<T[]>
-  getFirst(): Promise<T>
-  paginate(
-    page?: number,
-    limit?: number
-  ): Promise<{ data: T[]; total: number }>
-  option(selectableOption?: string[]): Promise<Array<{ value: any; label: any }>>
-  paginateOrOption(
-    page?: number,
-    limit?: number,
-    option?: string | boolean,
-    selectableOption?: string[]
-  ): Promise<{ data: any[]; total: number }>
-  resolve(input?: any): Promise<{ data: T[]; total: number }>
-
-  format(formatter: string | ((item: T) => any)): this
-
-  withoutScope(name: string | string[]): this
-
-  withTrashed(): this
-  onlyTrashed(): this
 }
