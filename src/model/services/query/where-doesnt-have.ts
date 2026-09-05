@@ -7,7 +7,7 @@ export function whereDoesntHave(query: any, Model: any, path: string, callback?:
 
   const relations = path.split('.')
 
-  whereHasSubquery(query, Model, relations, callback, true)
+  whereHasSubquery(query, Model, relations, callback, 'whereNotExists')
 
   return query
 }
