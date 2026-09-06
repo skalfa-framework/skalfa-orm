@@ -7,7 +7,7 @@ export function whereHas(query: any, Model: any, path: string, callback?: (q: an
 
   const relations = path.split('.')
 
-  whereHasSubquery(query, Model, relations, callback, false)
+  whereHasSubquery(query, Model, relations, callback, 'whereExists')
 
   return query
 }

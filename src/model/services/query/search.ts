@@ -1,3 +1,5 @@
+import { extendModelQuery } from '../../query'
+
 export function search(
   query                              :  any,
   Model                              :  any,
@@ -18,6 +20,8 @@ export function search(
   const searchMode  =  Model.searchMode ?? 'like'
 
   query.where((q: any) => {
+    extendModelQuery(q, Model)
+
     mergedSearchable.forEach((column) => {
       if (column.includes(".")) {
         const [relation, col] = column.split(".")

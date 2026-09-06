@@ -275,5 +275,38 @@ export function extendModelQuery(query: Knex.QueryBuilder, Model: any) {
     }
   }
 
+  // ==========================
+  // ## Subquery callback auto-extension
+  // ==========================
+  if (!(query as any)._isModelQueryExtended) {
+    ;(query as any)._isModelQueryExtended = true
+
+    const origWhere: any = query.where.bind(query)
+    ;(query as any).where = function (...args: any[]) {
+      if (typeof args[0] === 'function') {
+        const userCb = args[0]
+        return origWhere(function (this: any, subQb: any) {
+          const target = subQb || this
+          extendModelQuery(target, Model)
+          return userCb.call(this, target)
+        })
+      }
+      return origWhere(...args)
+    }
+
+    const origOrWhere: any = query.orWhere.bind(query)
+    ;(query as any).orWhere = function (...args: any[]) {
+      if (typeof args[0] === 'function') {
+        const userCb = args[0]
+        return origOrWhere(function (this: any, subQb: any) {
+          const target = subQb || this
+          extendModelQuery(target, Model)
+          return userCb.call(this, target)
+        })
+      }
+      return origOrWhere(...args)
+    }
+  }
+
   return query
 }

@@ -2,13 +2,14 @@ import type { Knex } from 'knex'
 import { applyGlobalScopes } from '../scope/apply-global-scopes'
 
 
+export type WhereHasMethod = 'whereExists' | 'orWhereExists' | 'whereNotExists' | 'orWhereNotExists'
 
 export function whereHasSubquery(
   parentQuery   :  any,
   Model         :  any,
   relations     :  string[],
   callback     ?:  (q: any) => void,
-  negate        :  boolean = false
+  method        :  WhereHasMethod | boolean = 'whereExists'
 ) {
   const relation  =  relations[0]
   const relDef    =  Model.relations?.[relation]
@@ -21,9 +22,11 @@ export function whereHasSubquery(
   const parentTable = Model.getTable()
   const relatedTable = Related.getTable()
 
-  const method = negate ? 'whereNotExists' : 'whereExists'
+  const resolvedMethod: WhereHasMethod = typeof method === 'boolean'
+    ? (method ? 'whereNotExists' : 'whereExists')
+    : method
 
-  parentQuery[method](function (this: Knex.QueryBuilder) {
+  parentQuery[resolvedMethod](function (this: Knex.QueryBuilder) {
     this.select(1).from(relatedTable)
 
     if (Related.isSoftDelete?.()) {
@@ -49,7 +52,7 @@ export function whereHasSubquery(
     }
 
     if (relations.length > 1) {
-      whereHasSubquery(this, Related, relations.slice(1), callback, negate)
+      whereHasSubquery(this, Related, relations.slice(1), callback, 'whereExists')
 
       return
     }
