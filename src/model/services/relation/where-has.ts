@@ -1,6 +1,6 @@
 import type { Knex } from 'knex'
 import { applyGlobalScopes } from '../scope/apply-global-scopes'
-
+import { extendModelQuery } from '../../query'
 
 export type WhereHasMethod = 'whereExists' | 'orWhereExists' | 'whereNotExists' | 'orWhereNotExists'
 
@@ -24,7 +24,7 @@ export function whereHasSubquery(
 
   const resolvedMethod: WhereHasMethod = typeof method === 'boolean'
     ? (method ? 'whereNotExists' : 'whereExists')
-    : method
+    : (method || 'whereExists')
 
   parentQuery[resolvedMethod](function (this: Knex.QueryBuilder) {
     this.select(1).from(relatedTable)
@@ -58,15 +58,13 @@ export function whereHasSubquery(
     }
 
     if (callback) {
-      const qb = Related.query().from(relatedTable)
+      const qb = extendModelQuery(this, Related)
 
       desc.callback?.(qb)
 
       callback(qb)
 
       applyGlobalScopes(qb)
-
-      this.whereExists(qb)
     }
   })
 }
